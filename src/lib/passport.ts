@@ -3,11 +3,12 @@ import Strategy from 'passport-google-oauth20';
 import { web } from '../../config/google.json';
 
 passport.serializeUser((user, done) => {
-  done(null, user);
+  done(null, user.id);
 });
 
-passport.deserializeUser((obj, done) => {
-  done(null, obj);
+passport.deserializeUser((user, done) => {
+  //TODO 유저 찾기
+  done(null, user);
 });
 
 passport.use(new Strategy({

@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router, NextFunction } from 'express';
 import passport from '../../../lib/passport';
 
 const router = Router();
@@ -8,16 +8,12 @@ router.get('/login', passport.authenticate('google', {
 }));
 
 router.get('/google/callback', passport.authenticate('google', {
-  failureRedirect: '/login'
-}),
-  (req, res) => {
-    console.log('success');
-    res.redirect('/');
+  //TODO 실패시 확인
+  failureRedirect: '/',
+}), (req, res) => {
+  return res.status(200).json({
+    message: '로그인 성공.',
   });
-
-import mid from '../../../lib/middleware/auth';
-
-router.get('/account', mid, (req: any, res) => {
-  console.log(req.user);
 });
+
 export default router;
