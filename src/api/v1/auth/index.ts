@@ -15,5 +15,6 @@ router.get('/login', passport.authenticate('google', {
 }));
 router.use('/google/callback', login);
 router.use('/logout', logout);
+// TODO Register Refactoring
 
 export default router;
