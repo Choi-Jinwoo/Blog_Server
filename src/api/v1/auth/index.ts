@@ -1,19 +1,19 @@
 import { Router, NextFunction } from 'express';
 import passport from '../../../lib/passport';
+import login from './auth.ctrl/login';
+import logout from './auth.ctrl/logout';
+import auth from '../../../lib/middleware/auth';
+import register from './auth.ctrl/register';
 
 const router = Router();
 
 router.get('/login', passport.authenticate('google', {
-  scope: ['profile']
+  scope: [
+    'profile',
+    'email',
+  ],
 }));
-
-router.get('/google/callback', passport.authenticate('google', {
-  //TODO 실패시 확인
-  failureRedirect: '/',
-}), (req, res) => {
-  return res.status(200).json({
-    message: '로그인 성공.',
-  });
-});
+router.use('/google/callback', login);
+router.use('/logout', logout);
 
 export default router;
