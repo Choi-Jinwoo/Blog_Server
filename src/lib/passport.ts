@@ -4,10 +4,12 @@ import { web } from '../../config/google.json';
 import { getRepository } from 'typeorm';
 import User from '../entity/User';
 
+// seesion 저장
 passport.serializeUser((user, done) => {
   done(null, user);
 });
 
+// req.user 생성
 passport.deserializeUser((user, done) => {
   done(null, user);
 });
@@ -28,7 +30,7 @@ passport.use('google-login', new Strategy({
     if (!isRegisted)
       return done('UNAUTHORIZED', user);
 
-    return done(null, user);
+    return done(null, isRegisted);
   });
 }));
 
@@ -52,7 +54,7 @@ passport.use('google-register', new Strategy({
     registUser.id = user.id;
     registUser.name = user.displayName;
     registUser.email = user.emails[0].value;
-    userRepo.save(registUser);
+    await userRepo.save(registUser);
 
     return done(null, user);
   });
