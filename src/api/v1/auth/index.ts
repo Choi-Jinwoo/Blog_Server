@@ -1,20 +1,24 @@
 import { Router, NextFunction } from 'express';
 import passport from '../../../lib/passport';
-import login from './auth.ctrl/login';
+import loginCallback from './auth.ctrl/loginCallback';
+import registerCallback from './auth.ctrl/registerCallback';
 import logout from './auth.ctrl/logout';
-import auth from '../../../lib/middleware/auth';
-import register from './auth.ctrl/register';
 
 const router = Router();
 
-router.get('/login', passport.authenticate('google', {
-  scope: [
-    'profile',
-    'email',
-  ],
+const scope = [
+  'profile',
+  'email',
+];
+
+router.get('/login', passport.authenticate('google-login', {
+  scope,
 }));
-router.use('/google/callback', login);
+router.get('/register', passport.authenticate('google-register', {
+  scope,
+}));
+router.use('/google-login/callback', loginCallback);
+router.use('/google-register/callback', registerCallback);
 router.use('/logout', logout);
-// TODO Register Refactoring
 
 export default router;

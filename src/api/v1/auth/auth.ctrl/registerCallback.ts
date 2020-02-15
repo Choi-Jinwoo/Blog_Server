@@ -1,25 +1,26 @@
 import { Request, Response, NextFunction } from 'express';
 import logger from '../../../../lib/logger';
 import passport from '../../../../lib/passport';
+import { getRepository } from 'typeorm';
+import User from '../../../../entity/User';
 
 export default (req: Request, res: Response, next: NextFunction) => {
-  passport.authenticate('google', (err, user, info) => {
+  passport.authenticate('google-register', (err, user, info) => {
     if (err) {
-      if (err.message === 'UNAUTHORIZED') {
-        logger.yellow('인증 실패');
+      if (err === 'CONFLICT') {
+        logger.yellow('중복된 아이디');
         return res.status(401).json({
-          mesage: '인증 실패',
+          mesage: '중복된 아이디',
         });
       }
 
-      logger.red('서버 오류.', err.message);
       res.status(500).json({
         mesage: '서버 오류',
       });
     } else {
-      logger.green('로그인 성공.');
+      logger.green('회원가입 성공.');
       res.status(200).json({
-        mesage: '로그인 성공.',
+        mesage: '회원가입 성공.',
       });
     }
   })(req, res);
