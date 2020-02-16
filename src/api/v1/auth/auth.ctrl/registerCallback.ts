@@ -14,6 +14,13 @@ export default (req: Request, res: Response, next: NextFunction) => {
         });
       }
 
+      if (err.message === 'Bad Request') {
+        logger.yellow('[GOOGLE] BAD REQUEST');
+        return res.status(400).json({
+          message: 'OAUTH 검증 오류.',
+        });
+      }
+
       res.status(500).json({
         mesage: '서버 오류',
       });

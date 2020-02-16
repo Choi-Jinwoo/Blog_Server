@@ -1,8 +1,6 @@
-import { Request, Response, NextFunction } from 'express';
+import { Response, NextFunction } from 'express';
 import logger from '../../../../lib/logger';
 import passport from '../../../../lib/passport';
-import { getRepository } from 'typeorm';
-import User from '../../../../entity/User';
 
 export default (req, res: Response, next: NextFunction) => {
   passport.authenticate('google-login', (err, user, info) => {
@@ -14,6 +12,13 @@ export default (req, res: Response, next: NextFunction) => {
         });
       }
 
+      if (err.message === 'Bad Request') {
+        logger.yellow('[GOOGLE] BAD REQUEST');
+        return res.status(400).json({
+          message: 'OAUTH 검증 오류.',
+        });
+      }
+
       logger.red('서버 오류.', err.message);
       res.status(500).json({
         mesage: '서버 오류',
@@ -21,7 +26,7 @@ export default (req, res: Response, next: NextFunction) => {
     } else {
       req.login(user, (err) => {
         if (err) {
-          logger.red(err);
+          logger.red(err.message);
           return res.status(500).json({
             mesage: '서버 오류.',
           });
