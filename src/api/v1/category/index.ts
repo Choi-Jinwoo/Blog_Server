@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import getCategories from './category.ctrl/getCategories';
 import authMiddleware from '../../../lib/middleware/auth';
+import getCategories from './category.ctrl/getCategories';
 import createCategory from './category.ctrl/createCategory';
 import modifyCategory from './category.ctrl/modifyCategory';
 import deleteCategory from './category.ctrl/deleteCategory';

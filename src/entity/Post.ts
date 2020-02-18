@@ -1,4 +1,13 @@
-import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  BaseEntity,
+  CreateDateColumn,
+  UpdateDateColumn,
+  ManyToOne,
+  JoinColumn
+} from 'typeorm';
 import User from './User';
 import Category from './Category';
 
@@ -19,7 +28,8 @@ export default class Post extends BaseEntity {
   content: string;
 
   @Column({
-    nullable: false
+    nullable: false,
+    default: 0,
   })
   view: number;
 
