@@ -12,3 +12,14 @@ export const validateCreate = (req: Request, res: Response): boolean => {
 
   return validate(req, res, schema);
 };
+
+export const validateModify = (req: Request, res: Response): boolean => {
+  const schema = Joi.object().keys({
+    title: Joi.string().min(1).max(50),
+    content: Joi.string(),
+    is_private: Joi.boolean(),
+    category_idx: Joi.number().integer(),
+  });
+
+  return validate(req, res, schema);
+};
