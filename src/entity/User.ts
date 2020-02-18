@@ -11,9 +11,8 @@ export default class User extends BaseEntity {
   @Column({
     length: 255,
     nullable: false,
-    unique: true,
   })
-  email: string;
+  pw: string;
 
   @Column({
     length: 255,

@@ -14,13 +14,14 @@ export default async (req: Request, res: Response) => {
 
   try {
     const categoryRepo = getRepository(Category);
-    const isExist = await categoryRepo.findOne({
+    const isExist: Category = await categoryRepo.findOne({
       where: {
         name,
       },
     });
 
     if (isExist) {
+      logger.yellow('중복된 카테고리.');
       res.status(409).json({
         message: '중복된 카테고리.',
       });
