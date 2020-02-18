@@ -1,4 +1,3 @@
-// TODO querystring을 통해 정렬 구현 & is_deleted, is_private 고려
 import { Response } from 'express';
 import AuthRequest from '../../../../type/AuthRequest';
 import { getRepository, FindManyOptions } from 'typeorm';
@@ -36,7 +35,7 @@ export default async (req: AuthRequest, res: Response) => {
     // category 존재 할 경우
     if (query.category) {
       const categoryRepo = getRepository(Category);
-      const category = await categoryRepo.findOne({
+      const category: Category = await categoryRepo.findOne({
         where: {
           idx: query.category,
         },
