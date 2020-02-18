@@ -2,5 +2,4 @@
 
 ## 기술 스택
   - TypeScript + TypeORM
-  - OAUTH
-  - GraphQL + RestAPI
+  - JWT
