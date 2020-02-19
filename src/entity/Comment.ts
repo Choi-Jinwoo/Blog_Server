@@ -21,7 +21,7 @@ export default class Comment extends BaseEntity {
   @Column({
     nullable: true,
   })
-  reply_to: number
+  reply_to: number;
 
   @ManyToOne(type => User, { onDelete: "SET NULL" })
   @JoinColumn({ name: 'fk_user_id' })
