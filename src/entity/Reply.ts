@@ -1,9 +1,8 @@
 import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, ManyToMany, ManyToOne, JoinColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 import User from './User';
-import Post from './Post';
 
-@Entity('comment')
-export default class Comment extends BaseEntity {
+@Entity('reply')
+export default class Reply extends BaseEntity {
   @PrimaryGeneratedColumn()
   idx: number;
 
@@ -11,12 +10,6 @@ export default class Comment extends BaseEntity {
     nullable: false,
   })
   content: string;
-
-  @Column({
-    nullable: false,
-    default: false,
-  })
-  has_replies: boolean;
 
   @ManyToOne(type => User, { onDelete: "SET NULL" })
   @JoinColumn({ name: 'fk_user_id' })
@@ -28,14 +21,14 @@ export default class Comment extends BaseEntity {
   })
   fk_user_id: string;
 
-  @ManyToOne(type => Post, { onDelete: "CASCADE" })
-  @JoinColumn({ name: 'fk_post_idx' })
-  post: Post;
+  @ManyToOne(type => Comment, { onDelete: "CASCADE" })
+  @JoinColumn({ name: 'fk_comment_idx' })
+  comment: Comment;
 
   @Column({
     nullable: false,
   })
-  fk_post_idx: number;
+  fk_comment_idx: number;
 
   @Column('timestampz')
   @CreateDateColumn()

@@ -19,18 +19,10 @@ const admin = async (req, res: Response, next: NextFunction) => {
     switch (err.message) {
       case 'TOKEN_IS_ARRAY':
       case 'NO_TOKEN':
-        res.status(400).json({
-          message: '검증 오류.',
-        });
-        return;
       case 'INVALID_TOKEN':
-        res.status(401).json({
-          message: '위조된 토큰',
-        });
-        return;
       case 'NO_USER':
-        res.status(404).json({
-          message: '회원 없음.'
+        res.status(401).json({
+          message: '인증 되지 않음',
         });
         return;
       case 'EXPIRED_TOKEN':
@@ -56,18 +48,10 @@ const user = async (req, res: Response, next: NextFunction) => {
     switch (err.message) {
       case 'TOKEN_IS_ARRAY':
       case 'NO_TOKEN':
-        res.status(400).json({
-          message: '검증 오류.',
-        });
-        return;
       case 'INVALID_TOKEN':
-        res.status(401).json({
-          message: '위조된 토큰',
-        });
-        return;
       case 'NO_USER':
-        res.status(404).json({
-          message: '회원 없음.'
+        res.status(401).json({
+          message: '인증 되지 않음.'
         });
         return;
       case 'EXPIRED_TOKEN':

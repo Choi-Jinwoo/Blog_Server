@@ -15,20 +15,21 @@ export default async (req: Request, res: Response) => {
 
   try {
     const categoryRepo = getRepository(Category);
-    const category = await categoryRepo.findOne({
+    const category: Category = await categoryRepo.findOne({
       where: {
         idx,
       },
     });
 
-    if (category) {
+    if (!category) {
+      logger.yellow('카테고리 없음.');
       res.status(404).json({
         message: '카테고리 없음.',
       });
       return;
     }
 
-    categoryRepo.delete(category);
+    await categoryRepo.remove(category);
     logger.green('카테고리 삭제 성공.');
     return res.status(200).json({
       message: '카테고리 삭제 성공.',

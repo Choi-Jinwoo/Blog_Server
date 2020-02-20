@@ -21,13 +21,13 @@ export default async (req: Request, res: Response) => {
 
   try {
     const categoryRepo = getRepository(Category);
-    const category = await categoryRepo.findOne({
+    const category: Category = await categoryRepo.findOne({
       where: {
         idx,
       },
     });
 
-    if (category) {
+    if (!category) {
       res.status(404).json({
         message: '카테고리 없음.',
       });

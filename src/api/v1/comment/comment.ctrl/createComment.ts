@@ -14,7 +14,6 @@ export default async (req: AuthRequest, res: Response) => {
   type RequestBody = {
     content: string;
     post_idx: number;
-    reply_to: number | null;
   }
 
   const data: RequestBody = req.body;
@@ -48,33 +47,8 @@ export default async (req: AuthRequest, res: Response) => {
     }
 
     const commentRepo = getRepository(Comment);
-    let replyToCommentIdx: number;
-
-    // 답글일 경우
-    if (data.reply_to) {
-      const replyToComment: Comment = await commentRepo.findOne({
-        where: {
-          idx: data.reply_to,
-          fk_post_idx: data.post_idx,
-        },
-      });
-
-      if (!replyToComment) {
-        logger.yellow('댓글 없음.');
-        res.status(404).json({
-          message: '댓글 없음.',
-        });
-        return;
-      }
-
-      replyToComment.has_replies = true;
-      await commentRepo.save(replyToComment);
-      replyToCommentIdx = replyToComment.idx;
-    }
-
     const comment: Comment = new Comment;
     comment.content = data.content;
-    comment.reply_to = replyToCommentIdx || null;
     comment.user = user || null;
     comment.post = post;
     await commentRepo.save(comment);
