@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, ManyToMany, ManyToOne, JoinColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 import User from './User';
+import Comment from './Comment';
 
 @Entity('reply')
 export default class Reply extends BaseEntity {
