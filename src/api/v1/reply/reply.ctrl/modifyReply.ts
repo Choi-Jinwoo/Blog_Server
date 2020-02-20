@@ -1,9 +1,10 @@
 import { Response } from 'express';
 import AuthRequest from '../../../../type/AuthRequest';
 import { getRepository } from 'typeorm';
-import { validateModify } from '../../../../lib/validation/comment';
+import { validateModify } from '../../../../lib/validation/reply';
 import logger from '../../../../lib/logger';
 import User from '../../../../entity/User';
+import Reply from '../../../../entity/Reply';
 import Comment from '../../../../entity/Comment';
 import Post from '../../../../entity/Post';
 
@@ -27,29 +28,36 @@ export default async (req: AuthRequest, res: Response) => {
   const { content }: RequestBody = req.body;
 
   try {
-    const commentReo = getRepository(Comment);
-    const comment: Comment = await commentReo.findOne({
+    const replyRepo = getRepository(Reply);
+    const reply: Reply = await replyRepo.findOne({
       where: {
         idx,
       },
     });
 
-    if (!comment) {
-      logger.yellow('댓글 없음.');
+    if (!reply) {
+      logger.yellow('답글 없음.');
       res.status(404).json({
-        message: '댓글 없음.',
+        message: '답글 없음.',
       });
       return;
     }
 
 
-    if (comment.fk_user_id !== user.id) {
+    if (reply.fk_user_id !== user.id) {
       logger.yellow('권한 없음.');
       res.status(403).json({
         message: '권한 없음.',
       });
       return;
     }
+
+    const commentRepo = getRepository(Comment);
+    const comment: Comment = await commentRepo.findOne({
+      where: {
+        idx: reply.fk_comment_idx,
+      },
+    });
 
     const postRepo = getRepository(Post);
     const post: Post = await postRepo.findOne({
@@ -62,7 +70,7 @@ export default async (req: AuthRequest, res: Response) => {
     if (!post) {
       logger.yellow('글 없음.');
       res.status(404).json({
-        message: '글 없음.',
+        messages: '글 없음.',
       });
       return;
     }
@@ -71,24 +79,23 @@ export default async (req: AuthRequest, res: Response) => {
       if (!user.is_admin) {
         logger.yellow('권한 없음(비공개 글)');
         res.status(403).json({
-          message: '비공개 글.',
+          message: '권한 없음.',
         });
         return;
       }
     }
 
-    comment.content = content;
-    await commentReo.save(comment);
+    reply.content = content;
+    await replyRepo.save(reply);
 
-    logger.green('댓글 수정 성공.');
+    logger.green('답글 수정 성공.');
     res.status(200).json({
-      message: '댓글 수정 성공.',
+      message: '답글 수정 성공.',
     });
-    return;
   } catch (err) {
-    logger.red('댓글 수정 서버 오류.', err.message);
+    logger.red('답글 수정 서버 오류.');
     res.status(500).json({
-      message: '서버 오류.',
+      message: '답글 수정 서버 오류.',
     });
   }
 }

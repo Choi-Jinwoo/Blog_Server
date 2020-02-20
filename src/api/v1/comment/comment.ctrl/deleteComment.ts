@@ -34,6 +34,14 @@ export default async (req: AuthRequest, res: Response) => {
       return;
     }
 
+    if (comment.fk_user_id !== user.id) {
+      logger.yellow('권한 없음.');
+      res.status(403).json({
+        message: '권한 없음.',
+      });
+      return;
+    }
+
     const postRepo = getRepository(Post);
     const post: Post = await postRepo.findOne({
       where: {
@@ -58,14 +66,6 @@ export default async (req: AuthRequest, res: Response) => {
         });
         return;
       }
-    }
-
-    if (comment.fk_user_id !== user.id) {
-      logger.yellow('권한 없음.');
-      res.status(403).json({
-        message: '권한 없음.',
-      });
-      return;
     }
 
     await commentRepo.remove(comment);
