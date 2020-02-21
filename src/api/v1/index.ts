@@ -5,6 +5,7 @@ import upload from './upload';
 import post from './post'
 import comment from './comment';
 import reply from './reply';
+import file from './file';
 
 const router = Router();
 
@@ -14,5 +15,6 @@ router.use('/upload', upload);
 router.use('/post', post);
 router.use('/comment', comment);
 router.use('/reply', reply);
+router.use('/file', file);
 
 export default router;

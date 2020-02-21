@@ -4,6 +4,7 @@ import { getRepository } from 'typeorm';
 import logger from '../../../../lib/logger';
 import User from '../../../../entity/User';
 import Post from '../../../../entity/Post';
+import generateURL from '../../../../lib/util/generateURL';
 
 export default async (req: AuthRequest, res: Response) => {
   const user: User = req.user;
@@ -48,6 +49,7 @@ export default async (req: AuthRequest, res: Response) => {
     post.view += 1;
     await postRepo.save(post);
 
+    post.thumbnail = generateURL(req, post.thumbnail);
     logger.green('글 조회 성공.');
     res.status(200).json({
       message: '글 조회 성공.',

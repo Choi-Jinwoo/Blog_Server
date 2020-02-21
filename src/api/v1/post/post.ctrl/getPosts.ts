@@ -6,6 +6,7 @@ import User from '../../../../entity/User';
 import Category from '../../../../entity/Category';
 import Post from '../../../../entity/Post';
 import orderTypes from '../../../../enum/orderType';
+import generateURL from '../../../../lib/util/generateURL';
 
 export default async (req: AuthRequest, res: Response) => {
   const user: User = req.user;
@@ -85,6 +86,10 @@ export default async (req: AuthRequest, res: Response) => {
     }
     const postRepo = getRepository(Post);
     const posts: Post[] = await postRepo.find(queryConditions);
+
+    posts.forEach(post => {
+      post.thumbnail = generateURL(req, post.thumbnail);
+    });
 
     res.status(200).json({
       message: '글 전체 조회 성공.',
