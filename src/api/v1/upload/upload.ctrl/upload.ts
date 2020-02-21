@@ -2,7 +2,7 @@ import { Response } from 'express';
 import logger from '../../../../lib/logger';
 import generateURL from '../../../../lib/util/generateURL';
 
-export default async (req, res: Response, next) => {
+export default async (req, res: Response) => {
   const reqFiles = req.files;
   const files: string[] = [];
 

@@ -22,6 +22,7 @@ export default async (req: AuthRequest, res: Response) => {
       'created_at',
       'fk_user_id',
       'fk_category_idx',
+      'thumbnail',
     ],
     where: {
       is_deleted: false,
