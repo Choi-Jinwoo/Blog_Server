@@ -64,6 +64,12 @@ export default class Post extends BaseEntity {
   })
   fk_category_idx: number;
 
+  @Column({
+    length: 1000,
+    nullable: false,
+  })
+  thumbnail: string;
+
   @Column('timestampz')
   @CreateDateColumn()
   created_at: Date;

@@ -16,6 +16,7 @@ export default async (req: AuthRequest, res: Response) => {
     content: string;
     is_private: boolean;
     category_idx: number;
+    thumbnail: string;
   };
 
   const data: RequestBody = req.body;
@@ -40,7 +41,8 @@ export default async (req: AuthRequest, res: Response) => {
     const post = new Post;
     post.title = data.title;
     post.content = data.content;
-    post.is_private = data.is_private
+    post.is_private = data.is_private;
+    post.thumbnail = data.thumbnail;
     post.category = category;
     post.user = user;
     await postRepo.save(post);

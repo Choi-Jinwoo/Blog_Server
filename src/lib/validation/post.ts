@@ -8,6 +8,7 @@ export const validateCreate = (req: Request, res: Response): boolean => {
     content: Joi.string().required(),
     is_private: Joi.boolean().required(),
     category_idx: Joi.number().integer().required(),
+    thumbnail: Joi.string().required().max(800),
   });
 
   return validate(req, res, schema);
@@ -19,6 +20,7 @@ export const validateModify = (req: Request, res: Response): boolean => {
     content: Joi.string(),
     is_private: Joi.boolean(),
     category_idx: Joi.number().integer(),
+    thumbnail: Joi.string().max(800),
   });
 
   return validate(req, res, schema);
