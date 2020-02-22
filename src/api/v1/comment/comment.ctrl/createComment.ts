@@ -14,7 +14,7 @@ export default async (req: AuthRequest, res: Response) => {
   type RequestBody = {
     content: string;
     post_idx: number;
-  }
+  };
 
   const data: RequestBody = req.body;
 

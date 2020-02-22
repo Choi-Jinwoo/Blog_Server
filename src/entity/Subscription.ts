@@ -6,8 +6,8 @@ import {
   PrimaryColumn,
 } from 'typeorm';
 
-@Entity('subscribe')
-export default class Subscribe extends BaseEntity {
+@Entity('subscription')
+export default class Subscription extends BaseEntity {
   @PrimaryColumn({
     length: 255,
     nullable: false,

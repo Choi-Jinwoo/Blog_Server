@@ -3,6 +3,7 @@ import Post from './Post';
 import Category from './Category';
 import Comment from './Comment';
 import Reply from './Reply';
+import Subscription from './Subscription';
 
 const entities = [
   User,
@@ -10,6 +11,7 @@ const entities = [
   Category,
   Comment,
   Reply,
+  Subscription,
 ];
 
 export default entities;

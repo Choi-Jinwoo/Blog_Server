@@ -6,6 +6,7 @@ import post from './post'
 import comment from './comment';
 import reply from './reply';
 import file from './file';
+import subscription from './subscription';
 
 const router = Router();
 
@@ -16,5 +17,5 @@ router.use('/post', post);
 router.use('/comment', comment);
 router.use('/reply', reply);
 router.use('/file', file);
-
+router.use('/subscription', subscription);
 export default router;
