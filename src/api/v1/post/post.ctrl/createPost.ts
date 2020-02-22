@@ -53,7 +53,11 @@ export default async (req: AuthRequest, res: Response) => {
       message: '글 생성 성공.',
     });
 
-    await sendNoticeNewPost(post.title);
+    try {
+      await sendNoticeNewPost(post.title);
+    } catch (err) {
+      logger.red('이메일 서버 오류.', err.message);
+    }
   } catch (err) {
     logger.red('글 생성 서버 오류.', err.message);
     res.status(500).json({

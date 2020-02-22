@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
-import { validateSubscribe } from '../../../../lib/validation/subscription';
+import { validateCancelSubscribe } from '../../../../lib/validation/subscription';
 import logger from '../../../../lib/logger';
 import Subscription from '../../../../entity/Subscription';
-import { sendSubscribe } from '../../../../lib/util/email';
+import { sendCancelSubscribe } from '../../../../lib/util/email';
 
 export default async (req: Request, res: Response) => {
-  if (!validateSubscribe(req, res)) return;
+  if (!validateCancelSubscribe(req, res)) return;
 
   type RequestBody = {
     email: string;
@@ -16,31 +16,29 @@ export default async (req: Request, res: Response) => {
 
   try {
     const subscriptionRepo = getRepository(Subscription);
-    const isExist = await subscriptionRepo.findOne({
+    const subscription = await subscriptionRepo.findOne({
       where: {
         email,
       },
     });
 
-    if (isExist) {
-      logger.yellow('중복된 이메일.');
-      res.status(409).json({
-        message: '중복된 이메일.',
+    if (!subscription) {
+      logger.yellow('없는 구독자.');
+      res.status(404).json({
+        message: '없는 구독자.',
       });
       return;
     }
 
-    const subscription = new Subscription();
-    subscription.email = email;
-    await subscriptionRepo.save(subscription);
+    await subscriptionRepo.remove(subscription);
 
-    logger.green('구독 성공.');
+    logger.green('구독 취소 성공.');
     res.status(200).json({
-      message: '구독 성공.',
+      message: '구독 취소 성공.',
     });
 
     try {
-      await sendSubscribe(email);
+      await sendCancelSubscribe(email);
     } catch (err) {
       logger.red('이메일 서버 오류.', err.message);
     }
@@ -48,6 +46,7 @@ export default async (req: Request, res: Response) => {
     logger.red('구독 서버 오류.', err.message);
     res.status(500).json({
       message: '서버 오류.',
-    });
+    })
   }
 }
+
