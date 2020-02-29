@@ -19,6 +19,7 @@ export const getConnection = async (): Promise<Connection> => {
     port: databaseConfig.port,
     username: databaseConfig.username,
     password: databaseConfig.password,
+    charset: databaseConfig.charset,
   };
 
   try {

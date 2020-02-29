@@ -91,6 +91,7 @@ export default async (req: AuthRequest, res: Response) => {
       post.thumbnail = generateURL(req, post.thumbnail);
     });
 
+    logger.green('글 전체 조회 성공.');
     res.status(200).json({
       message: '글 전체 조회 성공.',
       data: {
