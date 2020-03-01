@@ -7,6 +7,7 @@ import comment from './comment';
 import reply from './reply';
 import file from './file';
 import subscription from './subscription';
+import profile from './profile';
 
 const router = Router();
 
@@ -18,4 +19,6 @@ router.use('/comment', comment);
 router.use('/reply', reply);
 router.use('/file', file);
 router.use('/subscription', subscription);
+router.use('/profile', profile);
+
 export default router;
