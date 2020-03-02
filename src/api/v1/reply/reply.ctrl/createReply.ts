@@ -58,13 +58,12 @@ export default async (req: AuthRequest, res: Response) => {
         res.status(403).json({
           message: '권한 없음.',
         });
+        return;
       }
-      return;
     }
 
     comment.has_replies = true;
     await commentRepo.save(comment);
-
     const replyRepo = getRepository(Reply);
     const reply = new Reply;
     reply.content = data.content;
