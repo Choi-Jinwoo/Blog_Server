@@ -3,9 +3,25 @@ import AuthRequest from '../../../../type/AuthRequest';
 import logger from '../../../../lib/logger';
 import User from '../../../../entity/User';
 import generateURL from '../../../../lib/util/generateURL';
+import { getRepository } from 'typeorm';
 
 export default async (req: AuthRequest, res: Response) => {
-  const user: User = req.user;
+  let user: User = req.user;
+  if (req.query.user) {
+    const findUserId: string = req.query.user;
+    const userRepo = getRepository(User);
+    user = await userRepo.findOne({
+      where: {
+        id: findUserId,
+      },
+    });
+    if (!user) {
+      res.status(404).json({
+        message: '회원 없음.',
+      });
+      return;
+    }
+  }
 
   delete user.pw;
 

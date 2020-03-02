@@ -19,7 +19,7 @@ export default async (req: AuthRequest, res: Response) => {
   try {
     user.pw = pw || user.pw;
     user.name = name || user.name;
-    user.profile_image = name || user.name;
+    user.profile_image = profile_image || user.profile_image;
 
     const userRepo = getRepository(User);
     await userRepo.save(user);
