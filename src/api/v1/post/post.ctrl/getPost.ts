@@ -49,7 +49,9 @@ export default async (req: AuthRequest, res: Response) => {
     post.view += 1;
     await postRepo.save(post);
 
-    post.thumbnail = generateURL(req, post.thumbnail);
+    if (req.query.image !== 'raw') {
+      post.thumbnail = generateURL(req, post.thumbnail);
+    }
     logger.green('글 조회 성공.');
     res.status(200).json({
       message: '글 조회 성공.',

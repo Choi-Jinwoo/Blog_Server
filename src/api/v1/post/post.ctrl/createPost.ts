@@ -53,6 +53,7 @@ export default async (req: AuthRequest, res: Response) => {
       message: '글 생성 성공.',
     });
 
+    if (post.is_private) return;
     try {
       await sendNoticeNewPost(post.title);
     } catch (err) {
