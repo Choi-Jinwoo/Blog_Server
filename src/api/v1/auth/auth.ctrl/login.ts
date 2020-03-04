@@ -38,7 +38,7 @@ export default async (req: Request, res: Response) => {
       data: {
         'x-access-token': token,
         is_admin: isExist.is_admin,
-        name: isExist.id,
+        name: isExist.name,
       },
     });
   } catch (err) {

@@ -30,7 +30,7 @@ export default async (req: Request, res: Response) => {
 
     const category = new Category();
     category.name = name;
-    categoryRepo.save(category);
+    await categoryRepo.save(category);
     logger.green('카테고리 생성 성공.');
     return res.status(200).json({
       message: '카테고리 생성 성공.',

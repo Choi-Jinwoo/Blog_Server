@@ -4,7 +4,7 @@ import { Request, Response } from 'express';
 
 export const validateCreate = (req: Request, res: Response): boolean => {
   const schema = Joi.object().keys({
-    name: Joi.string().max(20).required(),
+    name: Joi.string().max(40).required(),
   });
 
   return validate(req, res, schema);
