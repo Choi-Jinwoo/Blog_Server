@@ -13,7 +13,7 @@ export default (noticeTitle: string, noticeContent: string) => {
       <h1 style="font-size: 300%;">Notice</h1>
       <h2><a href="${link}" style="
         text-decoration: none;
-        color: #597cff;"${noticeTitle}</a></h2>
+        color: #597cff;"<a>${noticeTitle}</a></h2>
       <div style="
         margin-top: 3%;
         font-weight:bold; 
