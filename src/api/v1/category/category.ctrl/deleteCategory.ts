@@ -11,6 +11,7 @@ export default async (req: Request, res: Response) => {
     res.status(400).json({
       message: '검증 오류.',
     });
+    return;
   }
 
   try {
