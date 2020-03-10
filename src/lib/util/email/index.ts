@@ -1,9 +1,10 @@
 import sendEmail from './sendEmail';
 import subscribe from './form/subscribe';
-import noticeNewPost from './form/noticeNewPost';
+import newPost from './form/newPost';
 import { getRepository } from 'typeorm';
 import Subscription from '../../../entity/Subscription';
 import cancelSubcribe from './form/cancelSubcribe';
+import notice from './form/notice';
 
 export const sendSubscribe = async (email) => {
   const title = 'Subscribed';
@@ -19,7 +20,7 @@ export const sendCancelSubscribe = async (email) => {
   await sendEmail(email, title, content);
 }
 
-export const sendNoticeNewPost = async (postTitle) => {
+export const sendNewPost = async (postTitle) => {
   const subscriptionRepo = getRepository(Subscription);
   const subscribers = await subscriptionRepo.find();
 
@@ -27,6 +28,18 @@ export const sendNoticeNewPost = async (postTitle) => {
     return subscriber.email;
   });
   const title = 'New Post';
-  const content = noticeNewPost(postTitle);
+  const content = newPost(postTitle);
+  await sendEmail(emails, title, content);
+}
+
+export const sendNotice = async (noticeTitle, noticeContent) => {
+  const subscriptionRepo = getRepository(Subscription);
+  const subscribers = await subscriptionRepo.find();
+
+  const emails: string[] = subscribers.map((subscriber) => {
+    return subscriber.email;
+  });
+  const title = 'Notice';
+  const content = notice(noticeTitle, noticeContent);
   await sendEmail(emails, title, content);
 }

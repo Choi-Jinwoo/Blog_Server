@@ -6,7 +6,7 @@ import logger from '../../../../lib/logger';
 import User from '../../../../entity/User';
 import Category from '../../../../entity/Category';
 import Post from '../../../../entity/Post';
-import { sendNoticeNewPost } from '../../../../lib/util/email';
+import { sendNewPost } from '../../../../lib/util/email';
 
 export default async (req: AuthRequest, res: Response) => {
   if (!validateCreate(req, res)) return;
@@ -55,7 +55,7 @@ export default async (req: AuthRequest, res: Response) => {
 
     if (post.is_private) return;
     try {
-      await sendNoticeNewPost(post.title);
+      await sendNewPost(post.title);
     } catch (err) {
       logger.red('이메일 서버 오류.', err.message);
     }

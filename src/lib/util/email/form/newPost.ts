@@ -1,3 +1,5 @@
+import { link } from './site.json';
+
 export default (postTitle: string) => {
   return `
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:900&display=swap" rel="stylesheet">
@@ -11,7 +13,7 @@ export default (postTitle: string) => {
       font-family: 'Noto Sans KR';
       font-weight: 200;">
       <h1 style="font-size: 300%;">New Post!</h1>
-      <h2><a href="http://www.naver.com" style="
+      <h2><a href="${link}" style="
         text-decoration: none;
         color: rgba(0,0,255,0.75);">&lt; ${postTitle} &gt;</a></h2>
       <div style="

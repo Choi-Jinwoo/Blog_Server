@@ -1,3 +1,5 @@
+import { link } from './site.json';
+
 export default () => {
   return `
     <link href="https://fonts.googleapis.com/css?family=noto+sans+kr:900&display=swap" rel="stylesheet">
@@ -21,7 +23,7 @@ export default () => {
         font-size: 70%;
         margin-top: 2%;
         color: rgba(0,0,0,0.75);">
-        본인의 활동이 아닌경우 해당 사이트의 구독을 이용해주세요
+        본인의 활동이 아닌경우 <a href="${link}>해당 사이트</a>의 구독을 이용해주세요
       </div>
     </div>
   `
