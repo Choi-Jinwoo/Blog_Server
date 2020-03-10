@@ -13,8 +13,17 @@ export default async (req: AuthRequest, res: Response) => {
   type RequestQuery = {
     category: number;
     order: string;
+    page: number;
+    limit: number;
   };
   const query: RequestQuery = req.query;
+  if (query.page < 1) {
+    logger.yellow('검증 오류', 'page is not valid');
+    res.status(400).json({
+      message: '검증 오류.',
+    });
+    return;
+  }
 
   const queryConditions: FindManyOptions = {
     select: [
@@ -24,6 +33,7 @@ export default async (req: AuthRequest, res: Response) => {
       'fk_user_id',
       'fk_category_idx',
       'thumbnail',
+      'view',
     ],
     where: {
       is_deleted: false,
@@ -31,7 +41,9 @@ export default async (req: AuthRequest, res: Response) => {
       category: null,
     },
     order: null,
-  }
+    skip: (query.page - 1) * query.limit,
+    take: query.limit,
+  };
 
   try {
     // category 존재 할 경우
