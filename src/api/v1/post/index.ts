@@ -5,8 +5,11 @@ import modifyPost from './post.ctrl/modifyPost';
 import deletePost from './post.ctrl/deletePost';
 import getPosts from './post.ctrl/getPosts';
 import getPost from './post.ctrl/getPost';
+import findPosts from './post.ctrl/findPosts';
 
 const router = Router();
+
+router.get('/find', authMiddleware.guest, findPosts);
 
 router.get('/', authMiddleware.guest, getPosts);
 router.get('/:idx', authMiddleware.guest, getPost);
