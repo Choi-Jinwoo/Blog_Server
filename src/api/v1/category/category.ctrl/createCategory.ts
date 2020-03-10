@@ -36,7 +36,7 @@ export default async (req: Request, res: Response) => {
       message: '카테고리 생성 성공.',
     });
   } catch (err) {
-    logger.red('카테고리 생성 서버 오류.');
+    logger.red('카테고리 생성 서버 오류.', err.message);
     return res.status(500).json({
       message: '서버 오류.',
     });
