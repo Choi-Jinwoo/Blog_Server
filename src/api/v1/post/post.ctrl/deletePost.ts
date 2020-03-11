@@ -1,3 +1,8 @@
+/**
+ * 400 - 검증 오류
+ * 404 - 글 없음
+ * 403 - 권한 없음
+ */
 import { Response } from 'express'
 import AuthRequest from '../../../../type/AuthRequest';
 import { getRepository } from 'typeorm';

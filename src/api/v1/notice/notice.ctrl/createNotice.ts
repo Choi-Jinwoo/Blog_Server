@@ -1,3 +1,6 @@
+/**
+ * 400 - 검증 오류
+ */
 import { Response } from 'express';
 import AuthRequest from '../../../../type/AuthRequest';
 import { getRepository } from 'typeorm';

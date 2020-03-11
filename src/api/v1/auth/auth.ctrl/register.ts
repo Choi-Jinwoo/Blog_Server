@@ -1,3 +1,6 @@
+/**
+ * 409 - 중복된디아이디
+ */
 import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
 import { validateRegister } from '../../../../lib/validation/auth';

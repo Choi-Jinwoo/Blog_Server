@@ -1,3 +1,6 @@
+/**
+ * 401 - 인증 실패
+ */
 import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
 import { validateLogin } from '../../../../lib/validation/auth';

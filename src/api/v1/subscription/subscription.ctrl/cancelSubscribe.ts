@@ -1,3 +1,6 @@
+/**
+ * 404 - 구독자 없음
+ */
 import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
 import { validateCancelSubscribe } from '../../../../lib/validation/subscription';
@@ -23,9 +26,9 @@ export default async (req: Request, res: Response) => {
     });
 
     if (!subscription) {
-      logger.yellow('없는 구독자.');
+      logger.yellow('구독자 없음.');
       res.status(404).json({
-        message: '없는 구독자.',
+        message: '구독자 없음.',
       });
       return;
     }

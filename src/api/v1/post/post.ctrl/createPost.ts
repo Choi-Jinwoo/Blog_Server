@@ -1,3 +1,7 @@
+/**
+ * 400 - 검증 오류
+ * 404 - 카테고리 없음
+ */
 import { Response } from 'express'
 import AuthRequest from '../../../../type/AuthRequest';
 import { getRepository } from 'typeorm';

@@ -1,3 +1,7 @@
+/**
+ * 400 - 검증 오류
+ * 404 - 카테고리 없음
+ */
 import { Response } from 'express';
 import AuthRequest from '../../../../type/AuthRequest';
 import { getRepository, FindManyOptions } from 'typeorm';
@@ -56,9 +60,9 @@ export default async (req: AuthRequest, res: Response) => {
       });
 
       if (!category) {
-        logger.yellow('없는 카테고리');
+        logger.yellow('카테고리 없음');
         res.status(404).json({
-          message: '없는 카테고리',
+          message: '카테고리 없음',
         });
         return;
       }

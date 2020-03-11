@@ -1,3 +1,6 @@
+/**
+ * 404 - 회원 없음
+ */
 import { Response } from 'express';
 import AuthRequest from '../../../../type/AuthRequest';
 import logger from '../../../../lib/logger';

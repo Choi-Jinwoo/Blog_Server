@@ -1,3 +1,7 @@
+/**
+ * 400 - 검증 오류
+ * 404 - 카테고리 없음
+ */
 import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
 import { validateModify } from '../../../../lib/validation/category';

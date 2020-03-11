@@ -1,3 +1,6 @@
+/**
+ * 409 - 중복된 이메일
+ */
 import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
 import { validateSubscribe } from '../../../../lib/validation/subscription';

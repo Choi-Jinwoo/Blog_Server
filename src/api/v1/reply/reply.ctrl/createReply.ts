@@ -1,3 +1,7 @@
+/**
+ * 403 - 비공개 글
+ * 404 - 글 없음 / 댓글 없음
+ */
 import { Response } from 'express';
 import AuthRequest from '../../../../type/AuthRequest';
 import { getRepository } from 'typeorm';
