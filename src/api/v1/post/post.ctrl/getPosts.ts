@@ -100,6 +100,7 @@ export default async (req: AuthRequest, res: Response) => {
     const posts: Post[] = await postRepo.find(queryConditions);
 
     posts.forEach(post => {
+      if (!post.thumbnail) return;
       post.thumbnail = generateURL(req, post.thumbnail);
     });
 

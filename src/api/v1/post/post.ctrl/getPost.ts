@@ -50,6 +50,7 @@ export default async (req: AuthRequest, res: Response) => {
     await postRepo.save(post);
 
     if (req.query.image !== 'raw') {
+      if (!post.thumbnail) return;
       post.thumbnail = generateURL(req, post.thumbnail);
     }
     logger.green('글 조회 성공.');

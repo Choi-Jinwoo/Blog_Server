@@ -80,7 +80,7 @@ export default async (req: AuthRequest, res: Response) => {
     post.title = data.title || post.title;
     post.content = data.content || post.content;
     post.is_private = data.is_private || post.is_private;
-    post.thumbnail = data.thumbnail || post.thumbnail;
+    post.thumbnail = data.thumbnail;
     await postRepo.save(post);
 
     logger.green('글 수정 성공.');
