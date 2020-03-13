@@ -11,6 +11,7 @@ import logger from '../../../../lib/logger';
 import User from '../../../../entity/User';
 import Post from '../../../../entity/Post';
 import Comment from '../../../../entity/Comment';
+import { sendNewComment } from '../../../../lib/util/email';
 
 export default async (req: AuthRequest, res: Response) => {
   if (!validateCreate(req, res)) return;
@@ -62,6 +63,24 @@ export default async (req: AuthRequest, res: Response) => {
     res.status(200).json({
       message: '댓글 생성 성공.',
     });
+
+    // 댓글 작성자가 글 작성자일 경우
+    if (user && post.fk_user_id === user.id) return;
+
+    try {
+      const userRepo = getRepository(User);
+      const author: User = await userRepo.findOne({
+        where: {
+          id: post.fk_user_id,
+        },
+      });
+
+      if (!author) return;
+
+      await sendNewComment(author.email, post.title, post.idx);
+    } catch (err) {
+      logger.red('이메일 서버 오류.', err.message);
+    }
   } catch (err) {
     logger.red('댓글 생성 서버 오류.', err.message);
     res.status(500).json({

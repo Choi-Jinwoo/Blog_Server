@@ -1,3 +1,9 @@
+/**
+ * 400 - 검증 오류
+ * 401 - 인증 실패
+ * 404 - 인증 정보 없음
+ * 410 - 코드 만료
+ */
 import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
 import moment from 'moment';

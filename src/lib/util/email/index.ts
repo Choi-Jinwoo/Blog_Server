@@ -5,6 +5,9 @@ import { getRepository } from 'typeorm';
 import Subscription from '../../../entity/Subscription';
 import cancelSubcribe from './form/cancelSubcribe';
 import notice from './form/notice';
+import emailAuthCode from './form/emailAuthCode';
+import newComment from './form/newComment';
+import newReply from './form/newReply';
 
 export const sendSubscribe = async (email) => {
   const title = 'Subscribed';
@@ -46,7 +49,18 @@ export const sendNotice = async (noticeTitle, noticeContent) => {
 
 export const sendEmailAuthCode = async (email, code) => {
   const title = '이메일 인증';
-  // TODO: Email Auth Form
-  const content = code;
+  const content = emailAuthCode(code);
+  await sendEmail(email, title, content);
+}
+
+export const sendNewComment = async (email, postTitle, idx) => {
+  const title = '새로운 댓글이 달렸어요!';
+  const content = newComment(postTitle, idx);
+  await sendEmail(email, title, content);
+}
+
+export const sendNewReply = async (email, postTitle, idx) => {
+  const title = '새로운 답글이 달렸어요!';
+  const content = newReply(postTitle, idx);
   await sendEmail(email, title, content);
 }
