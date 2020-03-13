@@ -13,6 +13,7 @@ export default async (req: AuthRequest, res: Response) => {
   const queryConditions: FindManyOptions = {
     where: {
       is_private: false,
+      is_temp: false,
       title: Like(`%${query}%`),
     },
     order: {

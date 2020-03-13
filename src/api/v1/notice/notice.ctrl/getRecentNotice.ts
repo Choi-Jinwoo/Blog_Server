@@ -1,3 +1,6 @@
+/**
+ * 404 - 최근 공지 없음
+ */
 import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
 import logger from '../../../../lib/logger';
@@ -11,6 +14,14 @@ export default async (req: Request, res: Response) => {
         created_at: 'DESC',
       },
     });
+
+    if (!notice) {
+      logger.yellow('최근 공지 없음.');
+      res.status(404).json({
+        message: '최근 공지 없음.',
+      });
+      return;
+    }
 
     logger.green('최근 공지 조회 성공.');
     res.status(200).json({

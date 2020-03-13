@@ -40,8 +40,6 @@ export default async (req: Request, res: Response) => {
       message: '로그인 성공.',
       data: {
         'x-access-token': token,
-        is_admin: isExist.is_admin,
-        name: isExist.name,
       },
     });
   } catch (err) {

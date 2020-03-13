@@ -45,6 +45,12 @@ export default class Post extends BaseEntity {
   })
   is_private: boolean;
 
+  @Column({
+    nullable: false,
+    default: false
+  })
+  is_temp: boolean;
+
   @ManyToOne(type => User, { onDelete: "SET NULL" })
   @JoinColumn({ name: 'fk_user_id' })
   user: User;
@@ -70,8 +76,10 @@ export default class Post extends BaseEntity {
   })
   thumbnail: string;
 
-  @Column('timestampz')
-  @CreateDateColumn()
+  @Column({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   created_at: Date;
 
   @Column('timestamptz')

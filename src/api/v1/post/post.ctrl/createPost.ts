@@ -20,6 +20,7 @@ export default async (req: AuthRequest, res: Response) => {
     title: string;
     content: string;
     is_private: boolean;
+    is_temp: boolean;
     category_idx: number;
     thumbnail: string;
   };
@@ -47,6 +48,7 @@ export default async (req: AuthRequest, res: Response) => {
     post.title = data.title;
     post.content = data.content;
     post.is_private = data.is_private;
+    post.is_temp = data.is_temp;
     post.thumbnail = data.thumbnail;
     post.category = category;
     post.user = user;
@@ -57,7 +59,8 @@ export default async (req: AuthRequest, res: Response) => {
       message: '글 생성 성공.',
     });
 
-    if (post.is_private) return;
+    if (post.is_private || post.is_temp) return;
+    
     try {
       await sendNewPost(post.title);
     } catch (err) {

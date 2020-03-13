@@ -42,6 +42,7 @@ export default async (req: AuthRequest, res: Response) => {
     where: {
       is_deleted: false,
       is_private: false,
+      is_temp: false,
       category: null,
     },
     order: null,

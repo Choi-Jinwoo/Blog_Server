@@ -29,6 +29,7 @@ export default async (req: AuthRequest, res: Response) => {
       where: {
         idx,
         is_deleted: false,
+        is_temp: false,
       }
     });
 
