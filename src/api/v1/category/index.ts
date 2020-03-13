@@ -4,10 +4,12 @@ import getCategories from './category.ctrl/getCategories';
 import createCategory from './category.ctrl/createCategory';
 import modifyCategory from './category.ctrl/modifyCategory';
 import deleteCategory from './category.ctrl/deleteCategory';
+import getCategory from './category.ctrl/getCategory';
 
 const router = Router();
 
 router.get('/', getCategories);
+router.get('/:idx', getCategory);
 router.post('/', authMiddleware.admin, createCategory);
 router.put('/:idx', authMiddleware.admin, modifyCategory);
 router.delete('/:idx', authMiddleware.admin, deleteCategory);
