@@ -11,6 +11,10 @@ export default async (req: AuthRequest, res: Response) => {
   try {
     const postRepo = getRepository(Post);
     const posts: Post[] = await postRepo.find({
+      select: [
+        'idx',
+        'title',
+      ],
       where: {
         fk_user_id: user.id,
         is_temp: true,

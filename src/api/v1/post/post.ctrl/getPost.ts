@@ -51,14 +51,17 @@ export default async (req: AuthRequest, res: Response) => {
       }
     }
 
-    // 글 view 증가
-    post.view += 1;
-    await postRepo.save(post);
+    // 임시 저장이 아니라면 글 view 증가
+    if (!post.is_temp) {
+      post.view += 1;
+      await postRepo.save(post);
+    }
 
     if (req.query.image !== 'raw') {
       if (!post.thumbnail) return;
       post.thumbnail = generateURL(req, post.thumbnail);
     }
+
     logger.green('글 조회 성공.');
     res.status(200).json({
       message: '글 조회 성공.',
