@@ -75,21 +75,24 @@ export default async (req: AuthRequest, res: Response) => {
 
     // order 존재할 경우
     if (query.order) {
-      if (query.order === orderTypes.latest) {
-        queryConditions.order = {
-          created_at: 'DESC',
-        };
-      } else if (query.order === orderTypes.hit) {
-        queryConditions.order = {
-          view: 'DESC',
-          created_at: 'DESC',
-        };
-      } else {
+      if (!(query.order in orderTypes)) {
         logger.yellow('검증 오류.', 'bad query (order)');
         res.status(400).json({
           message: '검증 오류.',
         });
         return;
+      }
+
+      if (query.order === orderTypes.LATEST) {
+        queryConditions.order = {
+          created_at: 'DESC',
+        };
+      } 
+      else if (query.order === orderTypes.HIT) {
+        queryConditions.order = {
+          view: 'DESC',
+          created_at: 'DESC',
+        };
       }
     } else {
       queryConditions.order = {

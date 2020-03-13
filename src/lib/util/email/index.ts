@@ -43,3 +43,10 @@ export const sendNotice = async (noticeTitle, noticeContent) => {
   const content = notice(noticeTitle, noticeContent);
   await sendEmail(emails, title, content);
 }
+
+export const sendEmailAuthCode = async (email, code) => {
+  const title = '이메일 인증';
+  // TODO: Email Auth Form
+  const content = code;
+  await sendEmail(email, title, content);
+}

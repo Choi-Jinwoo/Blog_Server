@@ -1,5 +1,5 @@
 /**
- * 409 - 중복된디아이디
+ * 409 - 중복된 아이디 / 이메일
  */
 import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
@@ -14,21 +14,24 @@ export default async (req: Request, res: Response) => {
     id: string;
     pw: string;
     name: string;
+    email: string;
   }
   const data: RequestBody = req.body;
 
   try {
     const userRepo = getRepository(User);
     const isExist: User = await userRepo.findOne({
-      where: {
+      where: [{
         id: data.id,
-      },
+      }, {
+        email: data.email,
+      }],
     });
 
     if (isExist) {
-      logger.yellow('중복된 아이디.');
+      logger.yellow('중복된 아이디 혹은 이메일.');
       res.status(409).json({
-        message: '중복된 아이디',
+        message: '중복된 아이디 혹은 이메일',
       });
       return;
     }
