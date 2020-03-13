@@ -30,3 +30,13 @@ export const validateSendAuthCode = (req: Request, res: Response): boolean => {
 
   return validate(req,res, schema);
 }
+
+export const validateCheckAuthCode = (req: Request, res: Response): boolean => {
+  const schema = Joi.object().keys({
+    email: Joi.string().max(50).required(),
+    type: Joi.number().required(),
+    code: Joi.string().required(),
+  });
+
+  return validate(req,res, schema);
+}
