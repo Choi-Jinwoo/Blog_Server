@@ -1,3 +1,9 @@
+/**
+ * admin, user [
+ *  401 인증 안됨
+ *  410 토큰 만료
+ * ]
+ */
 import { Response, NextFunction } from 'express';
 import { verifyToken } from '../token';
 import { getRepository } from 'typeorm';

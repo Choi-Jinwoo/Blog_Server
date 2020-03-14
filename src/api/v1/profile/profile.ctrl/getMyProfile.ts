@@ -3,7 +3,6 @@ import AuthRequest from '../../../../type/AuthRequest';
 import logger from '../../../../lib/logger';
 import User from '../../../../entity/User';
 import generateURL from '../../../../lib/util/generateURL';
-import { getRepository } from 'typeorm';
 
 export default async (req: AuthRequest, res: Response) => {
   let user: User = req.user;
