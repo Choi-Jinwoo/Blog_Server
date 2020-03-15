@@ -84,14 +84,14 @@ export default async (req: AuthRequest, res: Response) => {
     }
 
     // 임시 저장 해제시 작성 시간 변경
-    if (data.is_temp === false && post.is_temp === true) { 
+    if (!data.is_temp && post.is_temp) {
       post.created_at = new Date();
     }
 
     post.title = data.title || post.title;
     post.content = data.content || post.content;
-    post.is_private = data.is_private !== null ? data.is_private : post.is_private;
-    post.is_temp = data.is_temp !== null ? data.is_temp : post.is_temp;
+    post.is_private = !!data.is_private;
+    post.is_temp = !!data.is_temp;
     post.thumbnail = data.thumbnail;
     await postRepo.save(post);
 

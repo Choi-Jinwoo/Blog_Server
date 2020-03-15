@@ -29,7 +29,6 @@ export default async (req: AuthRequest, res: Response) => {
       where: {
         idx,
         is_deleted: false,
-        is_temp: false,
       }
     });
 
@@ -42,6 +41,16 @@ export default async (req: AuthRequest, res: Response) => {
     }
 
     if (post.is_private) {
+      if (!user || !user.is_admin) {
+        logger.yellow('권한 없음.');
+        res.status(403).json({
+          message: '권한 없음.',
+        });
+        return;
+      }
+    }
+
+    if (post.is_temp) {
       if (!user || post.fk_user_id !== user.id) {
         logger.yellow('권한 없음.');
         res.status(403).json({
