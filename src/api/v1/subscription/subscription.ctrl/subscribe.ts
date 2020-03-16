@@ -1,4 +1,5 @@
 /**
+ * 400 - 검증 오류
  * 409 - 중복된 이메일
  */
 import { Request, Response } from 'express';

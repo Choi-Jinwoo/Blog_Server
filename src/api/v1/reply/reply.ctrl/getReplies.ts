@@ -64,7 +64,7 @@ export default async (req: AuthRequest, res: Response) => {
       },
     });
 
-    logger.yellow('답글 목록 조회 성공.');
+    logger.green('답글 목록 조회 성공.');
     res.status(200).json({
       message: '답글 목록 조회 성공.',
       data: {
