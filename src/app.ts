@@ -4,7 +4,6 @@ import * as bodyParser from 'body-parser';
 import cors from 'cors';
 import api from './api';
 import path from 'path';
-import denyUnAllowed from './lib/middleware/denyUnAllowed';
 
 const app = express();
 
