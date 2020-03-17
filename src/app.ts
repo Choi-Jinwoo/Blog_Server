@@ -8,8 +8,6 @@ import denyUnAllowed from './lib/middleware/denyUnAllowed';
 
 const app = express();
 
-app.use(denyUnAllowed);
-
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
