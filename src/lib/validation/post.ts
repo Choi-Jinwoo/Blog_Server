@@ -17,7 +17,7 @@ export const validateCreate = (req: Request, res: Response): boolean => {
 export const validateCreateTemp = (req: Request, res: Response): boolean => {
   const schema = Joi.object().keys({
     title: Joi.string().min(1).max(50).required(),
-    content: Joi.string(),
+    content: Joi.string().allow(null),
     is_private: Joi.boolean(),
     category_idx: Joi.number().integer(),
     thumbnail: Joi.string().max(800).allow(null),
