@@ -1,4 +1,3 @@
-node_modules/
 config/
 .env
 yarn.lock
@@ -6,3 +5,4 @@ yarn.lock
 yarn-error.log
 dist/
 public/
+node_modules/
