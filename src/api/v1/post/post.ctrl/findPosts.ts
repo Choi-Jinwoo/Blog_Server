@@ -14,6 +14,7 @@ export default async (req: AuthRequest, res: Response) => {
     where: {
       is_private: false,
       is_temp: false,
+      is_delete: false,
       title: Like(`%${query}%`),
     },
     order: {
