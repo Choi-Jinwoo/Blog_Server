@@ -81,6 +81,15 @@ export default async (req: AuthRequest, res: Response) => {
       }
 
       post.category = category;
+    } else {
+      // 임시 저장 글이 아닌 경우 카테고리가 없다면 검증 오류
+      if ((data.is_temp !== null && data.is_temp === false) || post.is_temp === false) {
+        logger.yellow('검증 오류.', 'Not Temp But No Category');
+        res.status(400).json({
+          message: '검증 오류.',
+        });
+        return;
+      }
     }
 
     // 임시 저장 해제시 작성 시간 변경
@@ -90,8 +99,8 @@ export default async (req: AuthRequest, res: Response) => {
 
     post.title = data.title || post.title;
     post.content = data.content || post.content;
-    post.is_private = !!data.is_private;
-    post.is_temp = !!data.is_temp;
+    post.is_private = data.is_private === null ? post.is_private : data.is_private;
+    post.is_temp = data.is_temp === null ? post.is_temp : data.is_temp;
     post.thumbnail = data.thumbnail;
     await postRepo.save(post);
 

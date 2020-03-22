@@ -49,7 +49,7 @@ export default async (req: AuthRequest, res: Response) => {
 
     post.title = data.title;
     post.content = data.content || '임시저장 내용';
-    post.is_private = data.is_private === true ? true : false;
+    post.is_private = !!data.is_private;
     post.is_temp = true;
     post.thumbnail = data.thumbnail;
     post.category = category;
