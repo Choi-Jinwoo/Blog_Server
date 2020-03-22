@@ -23,4 +23,4 @@ https.createServer(option, app).listen(443, () => {
 
 http.createServer(app).listen(PORT || 8080, () => {
   logger.green(`[HTTP] wlswoo-blog server is listening to ${PORT}`);
-})
+});
