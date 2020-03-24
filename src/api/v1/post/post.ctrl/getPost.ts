@@ -4,12 +4,15 @@
  * 404 - 글 없음
  */
 import { Response } from 'express';
+import moment from 'moment';
 import AuthRequest from '../../../../type/AuthRequest';
 import { getRepository } from 'typeorm';
 import logger from '../../../../lib/logger';
 import User from '../../../../entity/User';
 import Post from '../../../../entity/Post';
 import generateURL from '../../../../lib/util/generateURL';
+import PostView from '../../../../entity/PostView';
+import encrypt from '../../../../lib/encrypt';
 
 export default async (req: AuthRequest, res: Response) => {
   const user: User = req.user;
@@ -62,8 +65,37 @@ export default async (req: AuthRequest, res: Response) => {
 
     // 임시 저장이 아니라면 글 view 증가
     if (!post.is_temp) {
-      post.view += 1;
-      await postRepo.save(post);
+      let ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+      if (Array.isArray(ip)) {
+        ip = ip[0];
+      }
+
+      const encryptedIp = encrypt(ip);
+      const postViewRepo = getRepository(PostView);
+
+      const viewed = await postViewRepo.findOne({
+        where: {
+          ip: encryptedIp,
+          fk_post_idx: post.idx,
+        },
+        order: {
+          created_at: 'DESC',
+        },
+      });
+
+      const viewedCreatedAt = moment(viewed.created_at);
+      const currentTime = moment();
+
+      // 조회 한지 일정 시간이 지났다면
+      if (!viewed || currentTime.diff(viewedCreatedAt, 'minutes') > 60) {
+        post.view += 1;
+        await postRepo.save(post);
+
+        const postView = new PostView();
+        postView.ip = encryptedIp;
+        postView.post = post;
+        postViewRepo.save(postView);
+      }
     }
 
     if (req.query.image !== 'raw') {
@@ -81,7 +113,7 @@ export default async (req: AuthRequest, res: Response) => {
     });
     return;
   } catch (err) {
-    logger.red('서버 오류.', err.message);
+    logger.red('서버 오류.', err);
     res.status(500).json({
       message: '서버 오류.',
     });
