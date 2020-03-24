@@ -83,11 +83,10 @@ export default async (req: AuthRequest, res: Response) => {
         },
       });
 
-      const viewedCreatedAt = moment(viewed.created_at);
       const currentTime = moment();
 
-      // 조회 한지 일정 시간이 지났다면
-      if (!viewed || currentTime.diff(viewedCreatedAt, 'minutes') > 60) {
+      // 조회 한적 없다면 조회수 증가 혹은 조회수가 있고 일정 시간이 지났다면 증가
+      if (!viewed || (viewed && currentTime.diff(moment(viewed.created_at), 'minutes') > 60)) {
         post.view += 1;
         await postRepo.save(post);
 
