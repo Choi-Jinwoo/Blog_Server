@@ -6,6 +6,7 @@ import Reply from './Reply';
 import Subscription from './Subscription';
 import Notice from './Notice';
 import EmailAuthCode from './EmailAuthCode';
+import PostView from './PostView';
 
 const entities = [
   User,
@@ -16,6 +17,7 @@ const entities = [
   Subscription,
   Notice,
   EmailAuthCode,
+  PostView,
 ];
 
 export default entities;
