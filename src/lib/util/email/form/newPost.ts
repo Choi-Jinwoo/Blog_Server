@@ -15,7 +15,7 @@ export default (postTitle: string) => {
       <h1 style="font-size: 300%;">New Post!</h1>
       <h2><a href="${link}" style="
         text-decoration: none;
-        color: rgba(0,0,255,0.75);">&lt; ${postTitle} &gt;</a></h2>
+        color: rgba(0,0,255,0.75);">${postTitle}</a></h2>
       <div style="
         margin-top: 3%;
         color: rgba(0,0,0,0.5);">
