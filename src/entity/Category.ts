@@ -10,4 +10,9 @@ export default class Category extends BaseEntity {
     nullable: false,
   })
   name: string;
+
+  @Column({
+    nullable: false,
+  })
+  order_number: number;
 }
