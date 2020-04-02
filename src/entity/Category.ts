@@ -13,6 +13,7 @@ export default class Category extends BaseEntity {
 
   @Column({
     nullable: false,
+    unique: true,
   })
   order_number: number;
 }

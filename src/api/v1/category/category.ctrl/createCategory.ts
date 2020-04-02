@@ -34,7 +34,7 @@ export default async (req: Request, res: Response) => {
 
     const category = new Category();
     category.name = name;
-    category.order_number = await categoryRepo.count();
+    category.order_number = (await categoryRepo.count()) + 1;
 
     await categoryRepo.save(category);
     logger.green('카테고리 생성 성공.');
