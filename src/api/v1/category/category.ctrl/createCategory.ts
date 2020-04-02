@@ -34,6 +34,8 @@ export default async (req: Request, res: Response) => {
 
     const category = new Category();
     category.name = name;
+    category.order_number = await categoryRepo.count();
+
     await categoryRepo.save(category);
     logger.green('카테고리 생성 성공.');
     return res.status(200).json({
@@ -45,4 +47,4 @@ export default async (req: Request, res: Response) => {
       message: '서버 오류.',
     });
   }
-}
+};
