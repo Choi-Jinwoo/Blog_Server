@@ -5,8 +5,11 @@ import createCategory from './category.ctrl/createCategory';
 import modifyCategory from './category.ctrl/modifyCategory';
 import deleteCategory from './category.ctrl/deleteCategory';
 import getCategory from './category.ctrl/getCategory';
+import modifyOrderNumber from './category.ctrl/modifyOrderNumber';
 
 const router = Router();
+
+router.put('/order', authMiddleware.admin, modifyOrderNumber);
 
 router.get('/', getCategories);
 router.get('/:idx', getCategory);

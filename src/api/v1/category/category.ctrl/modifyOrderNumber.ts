@@ -25,14 +25,17 @@ export default async (req: Request, res: Response) => {
       },
     });
 
-    const categoryIdxMapped: number[] = categories.map(
-      (category) => category.idx,
-    );
-    const sortedOrderNumber = order_number.sort();
+    const categoryIdxMapped: number[] = categories.map((category) => category.idx);
+    const sortedOrderNumber = order_number.sort((a, b) => {
+      return a - b;
+    });
 
     /**
      * 현재의 카테고리 상태와 다르다면 검증 오류
      */
+    console.log(sortedOrderNumber);
+    console.log(categoryIdxMapped);
+
     if (!compareArray(sortedOrderNumber, categoryIdxMapped)) {
       logger.yellow('검증 오류.', 'Array is Not Same');
       res.status(400).json({
@@ -46,12 +49,10 @@ export default async (req: Request, res: Response) => {
     for (let i = 0; i < order_number.length; i += 1) {
       const updateCategoryIdx = order_number[i];
       // categoryIdxMapped의 해당 updateCategoryIdx의 배열 Index
-      const categoryIdxIndexOfIdxMapped = categoryIdxMapped.indexOf(
-        updateCategoryIdx,
-      );
+      const categoryIdxIndexOfIdxMapped = categoryIdxMapped.indexOf(updateCategoryIdx);
       const category = categories[categoryIdxIndexOfIdxMapped];
 
-      category.order_number = i;
+      category.order_number = i + 1;
       categoryUpdatePromise.push(categoryRepo.save(category));
     }
 
