@@ -2,7 +2,7 @@
 
 <http://blog.wlswoo.com>
 
-![image](https://user-images.githubusercontent.com/49791336/77218791-74e79800-6b72-11ea-8143-432393410ec2.png)
+![image](https://user-images.githubusercontent.com/49791336/78321799-e7f80200-75a7-11ea-891c-b576d050afdf.png)
 
 ## 기술 스택(백엔드)
 - Express.js
