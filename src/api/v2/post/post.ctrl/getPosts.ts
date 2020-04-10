@@ -33,11 +33,11 @@ export default async (req: AuthRequest, res: Response) => {
     select: [
       'idx',
       'title',
-      'created_at',
-      'fk_user_id',
       'fk_category_idx',
       'thumbnail',
       'view',
+      'released_at',
+      'updated_at',
     ],
     where: {
       is_deleted: false,
@@ -88,18 +88,18 @@ export default async (req: AuthRequest, res: Response) => {
 
       if (query.order === orderTypes.LATEST) {
         queryConditions.order = {
-          created_at: 'DESC',
+          released_at: 'DESC',
         };
       }
       else if (query.order === orderTypes.HIT) {
         queryConditions.order = {
           view: 'DESC',
-          created_at: 'DESC',
+          released_at: 'DESC',
         };
       }
     } else {
       queryConditions.order = {
-        created_at: 'DESC',
+        released_at: 'DESC',
       };
     }
 
@@ -110,8 +110,8 @@ export default async (req: AuthRequest, res: Response) => {
     const posts: Post[] = await postRepo.find(queryConditions);
 
     posts.forEach(post => {
-      if (!post.thumbnail) return;
-      post.thumbnail = generateURL(req, post.thumbnail);
+      if (post.thumbnail)
+        post.thumbnail = generateURL(req, post.thumbnail);
     });
 
     logger.green('글 전체 조회 성공.');

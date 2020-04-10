@@ -24,7 +24,7 @@ export default async (req: AuthRequest, res: Response) => {
       title: Like(`%${query}%`),
     },
     order: {
-      created_at: 'DESC',
+      released_at: 'DESC',
     }
   }
 
@@ -38,8 +38,8 @@ export default async (req: AuthRequest, res: Response) => {
     const posts: Post[] = await postRepo.find(queryConditions)
 
     posts.forEach(post => {
-      if (!post.thumbnail) return;
-      post.thumbnail = generateURL(req, post.thumbnail);
+      if (post.thumbnail)
+        post.thumbnail = generateURL(req, post.thumbnail);
     });
 
     logger.green('글 검색 성공.');
