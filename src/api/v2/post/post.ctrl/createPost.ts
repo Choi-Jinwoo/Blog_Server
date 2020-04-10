@@ -7,7 +7,6 @@ import AuthRequest from '../../../../type/AuthRequest';
 import { getRepository } from 'typeorm';
 import { validateCreate } from '../../../../lib/validation/post';
 import logger from '../../../../lib/logger';
-import User from '../../../../entity/User';
 import Category from '../../../../entity/Category';
 import Post from '../../../../entity/Post';
 import { sendNewPost } from '../../../../lib/util/email';
@@ -15,22 +14,25 @@ import { sendNewPost } from '../../../../lib/util/email';
 export default async (req: AuthRequest, res: Response) => {
   if (!validateCreate(req, res)) return;
 
-  const user: User = req.user;
   type RequestBody = {
     title: string;
     content: string;
     is_private: boolean;
     category_idx: number;
-    thumbnail: string;
+    thumbnail: string | null;
+    is_temp: boolean;
   };
 
   const data: RequestBody = req.body;
 
   try {
     const categoryRepo = getRepository(Category);
+    const postRepo = getRepository(Post);
+
     const category: Category = await categoryRepo.findOne({
       where: {
         idx: data.category_idx,
+        is_wrapper: false,
       },
     });
 
@@ -42,15 +44,20 @@ export default async (req: AuthRequest, res: Response) => {
       return;
     }
 
-    const postRepo = getRepository(Post);
-    const post = new Post;
+    const post = new Post();
+
     post.title = data.title;
     post.content = data.content;
     post.is_private = data.is_private;
-    post.is_temp = false;
+    post.is_temp = data.is_temp;
     post.thumbnail = data.thumbnail;
     post.category = category;
-    post.user = user;
+
+    // 임시저장이 아닐경우 (릴리즈))
+    if (!post.is_temp) {
+      post.released_at = new Date();
+    }
+
     await postRepo.save(post);
 
     logger.green('글 생성 성공.');
@@ -58,7 +65,7 @@ export default async (req: AuthRequest, res: Response) => {
       message: '글 생성 성공.',
     });
 
-    if (post.is_private) return;
+    if (post.is_private || post.is_temp) return;
 
     try {
       await sendNewPost(post.title);

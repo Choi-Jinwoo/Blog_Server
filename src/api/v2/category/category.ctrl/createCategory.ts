@@ -14,7 +14,7 @@ export default async (req: Request, res: Response) => {
 
   type RequestBody = {
     name: string;
-    fk_category_idx: number;
+    fk_category_idx: number | null;
   };
   const { name, fk_category_idx }: RequestBody = req.body;
 

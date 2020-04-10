@@ -8,7 +8,7 @@ export const validateCreate = (req: Request, res: Response): boolean => {
     content: Joi.string().required(),
     is_private: Joi.boolean().required(),
     category_idx: Joi.number().integer().required(),
-    thumbnail: Joi.string().max(800).allow(null),
+    thumbnail: Joi.string().max(800).required().allow(null),
   });
 
   return validate(req, res, schema);

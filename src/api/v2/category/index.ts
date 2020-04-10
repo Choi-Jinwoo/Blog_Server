@@ -10,8 +10,8 @@ const router = Router();
 
 router.get('/', getCategories);
 router.get('/:idx', getCategory);
-router.post('/', createCategory);
-router.put('/:idx', modifyCategory);
-router.delete('/:idx', deleteCategory);
+router.post('/', authMiddleware, createCategory);
+router.put('/:idx', authMiddleware, modifyCategory);
+router.delete('/:idx', authMiddleware, deleteCategory);
 
 export default router;
