@@ -7,6 +7,7 @@ export const validateCreate = (req: Request, res: Response): boolean => {
     name: Joi.string()
       .max(40)
       .required(),
+    fk_category_idx: Joi.number().integer().required().allow(null),
   });
 
   return validate(req, res, schema);

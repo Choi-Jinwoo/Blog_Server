@@ -26,7 +26,7 @@ export default class Category extends BaseEntity {
 
   @ManyToOne(type => Category, { onDelete: "CASCADE" })
   @JoinColumn({ name: 'fk_category_idx' })
-  category: Category;
+  wrapper_category: Category;
 
   @Column({
     nullable: true,

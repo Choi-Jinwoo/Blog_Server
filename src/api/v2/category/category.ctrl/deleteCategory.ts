@@ -34,30 +34,6 @@ export default async (req: Request, res: Response) => {
       return;
     }
 
-    const deletedOrderNumber = category.order_number;
-
-    await categoryRepo.remove(category);
-
-    /**
-     * Sync Category Order Number
-     * 카테고리 정렬 순서 동기화
-     */
-    const categories: Category[] = await categoryRepo.find();
-
-    let additionalNumber = 0;
-    const categoryUpdatePromise: Promise<Category>[] = [];
-    for (let i = 0; i < categories.length; i += 1) {
-      const category = categories[i];
-
-      if (category.order_number > deletedOrderNumber) {
-        category.order_number = deletedOrderNumber + additionalNumber;
-        additionalNumber += 1;
-        categoryUpdatePromise.push(categoryRepo.save(category));
-      }
-    }
-
-    await Promise.all(categoryUpdatePromise);
-
     logger.green('카테고리 삭제 성공.');
     return res.status(200).json({
       message: '카테고리 삭제 성공.',
