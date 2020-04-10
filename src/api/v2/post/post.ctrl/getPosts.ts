@@ -13,7 +13,6 @@ import orderTypes from '../../../../enum/orderType';
 import generateURL from '../../../../lib/util/generateURL';
 
 export default async (req: AuthRequest, res: Response) => {
-  const user: User = req.user;
   type RequestQuery = {
     category: number;
     order: string;
@@ -21,6 +20,7 @@ export default async (req: AuthRequest, res: Response) => {
     limit: number;
   };
   const query: RequestQuery = req.query;
+
   if (query.page < 1) {
     logger.yellow('검증 오류', 'page is not valid');
     res.status(400).json({
@@ -51,12 +51,15 @@ export default async (req: AuthRequest, res: Response) => {
   };
 
   try {
+    const postRepo = getRepository(Post);
+
     // category 존재 할 경우
     if (query.category) {
       const categoryRepo = getRepository(Category);
       const category: Category = await categoryRepo.findOne({
         where: {
           idx: query.category,
+          is_wrapper: false,
         },
       });
 
@@ -87,7 +90,7 @@ export default async (req: AuthRequest, res: Response) => {
         queryConditions.order = {
           created_at: 'DESC',
         };
-      } 
+      }
       else if (query.order === orderTypes.HIT) {
         queryConditions.order = {
           view: 'DESC',
@@ -100,11 +103,10 @@ export default async (req: AuthRequest, res: Response) => {
       };
     }
 
-    // 관리자일 경우 
-    if (user && user.is_admin) {
+    // 관리자일 경우 비공개 게시글 포함
+    if (req.admin)
       delete queryConditions.where['is_private'];
-    }
-    const postRepo = getRepository(Post);
+
     const posts: Post[] = await postRepo.find(queryConditions);
 
     posts.forEach(post => {

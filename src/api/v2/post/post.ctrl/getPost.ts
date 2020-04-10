@@ -15,7 +15,6 @@ import PostView from '../../../../entity/PostView';
 import encrypt from '../../../../lib/encrypt';
 
 export default async (req: AuthRequest, res: Response) => {
-  const user: User = req.user;
   const idx: number = Number(req.params.idx);
 
   if (isNaN(idx)) {
@@ -43,36 +42,25 @@ export default async (req: AuthRequest, res: Response) => {
       return;
     }
 
-    if (post.is_private) {
-      if (!user || !user.is_admin) {
-        logger.yellow('권한 없음.');
-        res.status(403).json({
-          message: '권한 없음.',
-        });
-        return;
-      }
-    }
-
-    if (post.is_temp) {
-      if (!user || post.fk_user_id !== user.id) {
-        logger.yellow('권한 없음.');
-        res.status(403).json({
-          message: '권한 없음.',
-        });
-        return;
-      }
+    // 관리자가 아닐경우 비공개 글 / 임시 저장글 조회 불가
+    if ((post.is_private || post.is_temp) && !req.admin) {
+      logger.yellow('권한 없음.');
+      res.status(403).json({
+        message: '권한 없음.',
+      });
+      return;
     }
 
     // 임시 저장이 아니라면 글 view 증가
     if (!post.is_temp) {
+      const postViewRepo = getRepository(PostView);
+
       let ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
       if (Array.isArray(ip)) {
         ip = ip[0];
       }
 
       const encryptedIp = encrypt(ip);
-      const postViewRepo = getRepository(PostView);
-
       const viewed = await postViewRepo.findOne({
         where: {
           ip: encryptedIp,

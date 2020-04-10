@@ -7,7 +7,7 @@ import { Response, Request, NextFunction } from 'express';
 import { verifyToken } from '../token';
 import logger from '../logger';
 
-export default async (req: Request, res: Response, next: NextFunction) => {
+export default async (req, res: Response, next: NextFunction) => {
   const reqToken: string | string[] = req.headers['x-access-token'];
   if (Array.isArray(reqToken)) {
     res.status(400).json({
@@ -27,6 +27,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
       return;
     }
 
+    req.admin = true;
     next();
   } catch (err) {
     switch (err.message) {

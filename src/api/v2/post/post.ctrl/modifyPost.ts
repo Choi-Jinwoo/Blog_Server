@@ -8,14 +8,12 @@ import AuthRequest from '../../../../type/AuthRequest';
 import { getRepository } from 'typeorm';
 import { validateModify } from '../../../../lib/validation/post';
 import logger from '../../../../lib/logger';
-import User from '../../../../entity/User';
 import Category from '../../../../entity/Category';
 import Post from '../../../../entity/Post';
 
 export default async (req: AuthRequest, res: Response) => {
   if (!validateModify(req, res)) return;
 
-  const user: User = req.user;
   const idx: number = Number(req.params.idx);
   if (isNaN(idx)) {
     logger.yellow('검증 오류.', 'idx is NaN');
@@ -31,13 +29,15 @@ export default async (req: AuthRequest, res: Response) => {
     is_private: boolean;
     is_temp: boolean;
     category_idx: number;
-    thumbnail: string;
+    thumbnail: string | null;
   };
 
   const data: RequestBody = req.body;
 
   try {
     const postRepo = getRepository(Post);
+    const categoryRepo = getRepository(Category);
+
     const post: Post = await postRepo.findOne({
       where: {
         idx,
@@ -54,54 +54,37 @@ export default async (req: AuthRequest, res: Response) => {
       return;
     }
 
-    // 권한 확인
-    if (post.fk_user_id !== user.id) {
-      logger.yellow('권한 없음.');
-      res.status(403).json({
-        message: '권한 없음.',
+    // 카테고리 존재 유무 확인
+    const category: Category = await categoryRepo.findOne({
+      where: {
+        idx: data.category_idx,
+        is_wrapper: false,
+      },
+    });
+
+    if (!category) {
+      logger.yellow('카테고리 없음.');
+      res.status(404).json({
+        message: '카테고리 없음.',
       });
       return;
     }
 
-    // 카테고리 존재 유무 확인
-    if (data.category_idx) {
-      const categoryRepo = getRepository(Category);
-      const category: Category = await categoryRepo.findOne({
-        where: {
-          idx: data.category_idx,
-        },
-      });
-
-      if (!category) {
-        logger.yellow('카테고리 없음.');
-        res.status(404).json({
-          message: '카테고리 없음.',
-        });
-        return;
-      }
-
-      post.category = category;
-    } else {
-      // 임시 저장 글이 아닌 경우 카테고리가 없다면 검증 오류
-      if ((data.is_temp !== null && data.is_temp === false) || post.is_temp === false) {
-        logger.yellow('검증 오류.', 'Not Temp But No Category');
-        res.status(400).json({
-          message: '검증 오류.',
-        });
-        return;
-      }
-    }
-
     // 임시 저장 해제시 작성 시간 변경
     if (!data.is_temp && post.is_temp) {
-      post.created_at = new Date();
+      post.released_at = new Date();
+    }
+    // 릴리즈 게시글 -> 릴리즈 게시글로 변경 될 때 update 컬럼 변경
+    else if (!data.is_temp && !post.is_temp) {
+      post.updated_at = new Date();
     }
 
-    post.title = data.title || post.title;
-    post.content = data.content || post.content;
-    post.is_private = data.is_private === null ? post.is_private : data.is_private;
-    post.is_temp = data.is_temp === null ? post.is_temp : data.is_temp;
+    post.title = data.title;
+    post.content = data.content;
+    post.is_private = data.is_private;
+    post.is_temp = data.is_temp;
     post.thumbnail = data.thumbnail;
+
     await postRepo.save(post);
 
     logger.green('글 수정 성공.');

@@ -2,13 +2,19 @@ import { Response } from 'express';
 import AuthRequest from '../../../../type/AuthRequest';
 import { getRepository, FindManyOptions, Like } from 'typeorm';
 import logger from '../../../../lib/logger';
-import User from '../../../../entity/User';
 import Post from '../../../../entity/Post';
 import generateURL from '../../../../lib/util/generateURL';
 
 export default async (req: AuthRequest, res: Response) => {
-  const user: User = req.user;
   const query: string = req.query.query;
+
+  if (!query.trim().length) {
+    logger.yellow('검증 오류.', 'query is empty')
+    res.status(400).json({
+      message: '검증 오류.'
+    });
+    return;
+  }
 
   const queryConditions: FindManyOptions = {
     where: {
@@ -22,7 +28,8 @@ export default async (req: AuthRequest, res: Response) => {
     }
   }
 
-  if (user && user.is_admin) {
+  // 관리자일 경우 비공개 글 포함
+  if (req.admin) {
     delete queryConditions.where['is_private'];
   }
 

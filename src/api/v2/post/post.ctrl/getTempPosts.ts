@@ -1,13 +1,11 @@
 import { Response } from 'express';
 import AuthRequest from '../../../../type/AuthRequest';
-import { getRepository, FindManyOptions } from 'typeorm';
+import { getRepository } from 'typeorm';
 import logger from '../../../../lib/logger';
 import User from '../../../../entity/User';
 import Post from '../../../../entity/Post';
 
 export default async (req: AuthRequest, res: Response) => {
-  const user: User = req.user;
-
   try {
     const postRepo = getRepository(Post);
     const posts: Post[] = await postRepo.find({
@@ -16,7 +14,6 @@ export default async (req: AuthRequest, res: Response) => {
         'title',
       ],
       where: {
-        fk_user_id: user.id,
         is_temp: true,
       },
     });
