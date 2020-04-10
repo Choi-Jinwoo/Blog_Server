@@ -9,8 +9,12 @@ export default async (req: Request, res: Response) => {
     const categoryRepo = getRepository(Category);
     const rawCategories: Category[] = await categoryRepo.find();
 
+    type WrapperCategory = Category & {
+      categories?: Category[];
+    }
+
     // 외부 카테고리 filter
-    const wrapperCategories: any[] =
+    const wrapperCategories: WrapperCategory[] =
       rawCategories.filter(category => category.is_wrapper);
 
     // 외부카테고리 배열에 내부 카테고리 삽입
