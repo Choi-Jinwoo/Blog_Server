@@ -21,8 +21,9 @@ export default async (req: Request, res: Response) => {
   }
   type RequestBody = {
     name: string;
+    fk_category_idx: number;
   };
-  const { name }: RequestBody = req.body;
+  const { name, fk_category_idx }: RequestBody = req.body;
 
   try {
     const categoryRepo = getRepository(Category);
@@ -39,8 +40,22 @@ export default async (req: Request, res: Response) => {
       return;
     }
 
+    /**
+     * 외부 카테고리가 fk_category_idx가 있음
+     * 내부 카테고리가 fk_category_idx가 없음
+     * 검증오류
+     */
+    if (category.is_wrapper === Number.isInteger(fk_category_idx)) {
+      res.status(400).json({
+        message: '검증 오류.',
+      });
+      return;
+    }
+
     category.name = name;
+    category.fk_category_idx = fk_category_idx;
     categoryRepo.save(category);
+
     logger.green('카테고리 수정 성공.');
     return res.status(200).json({
       message: '카테고리 수정 성공.',
@@ -51,4 +66,4 @@ export default async (req: Request, res: Response) => {
       message: '서버 오류.',
     });
   }
-}
+};

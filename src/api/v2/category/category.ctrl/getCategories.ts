@@ -6,11 +6,7 @@ import Category from '../../../../entity/Category';
 export default async (req: Request, res: Response) => {
   try {
     const categoryRepo = getRepository(Category);
-    const categories: Category[] = await categoryRepo.find({
-      order: {
-        order_number: 'ASC',
-      },
-    });
+    const categories: Category[] = await categoryRepo.find();
 
     logger.green('카테고리 목록 조회 성공.');
     res.status(200).json({
