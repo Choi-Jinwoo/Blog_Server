@@ -2,6 +2,9 @@ import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, ManyToMany, ManyToO
 import User from './User';
 import Comment from './Comment';
 
+/**
+ * Delete
+ */
 @Entity('reply')
 export default class Reply extends BaseEntity {
   @PrimaryGeneratedColumn()

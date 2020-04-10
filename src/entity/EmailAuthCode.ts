@@ -16,7 +16,7 @@ export default class EmailAuthCode extends BaseEntity {
     nullable: false,
   })
   email: string;
-  
+
   @Column({
     length: 255,
     nullable: false,
@@ -25,9 +25,8 @@ export default class EmailAuthCode extends BaseEntity {
 
   /**
    * 이메일 인증 종류
-   * 0 - 회원가입 인증
-   * 1 - 구독 인증
-   * 2 - 구독 해지 인증
+   * 0 - 구독 인증
+   * 1 - 구독 해지 인증
    */
   @Column({
     nullable: false,

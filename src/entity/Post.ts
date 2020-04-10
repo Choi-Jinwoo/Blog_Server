@@ -51,16 +51,6 @@ export default class Post extends BaseEntity {
   })
   is_temp: boolean;
 
-  @ManyToOne(type => User, { onDelete: "SET NULL" })
-  @JoinColumn({ name: 'fk_user_id' })
-  user: User;
-
-  @Column({
-    length: 255,
-    nullable: true,
-  })
-  fk_user_id: string;
-
   @ManyToOne(type => Category, { onDelete: "SET NULL" })
   @JoinColumn({ name: 'fk_category_idx' })
   category: Category;
@@ -78,11 +68,13 @@ export default class Post extends BaseEntity {
 
   @Column({
     type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP',
+    nullable: true,
   })
-  created_at: Date;
+  released_at: Date;
 
-  @Column('timestamptz')
-  @UpdateDateColumn()
+  @Column({
+    type: 'timestamp',
+    nullable: true,
+  })
   updated_at: Date;
 }

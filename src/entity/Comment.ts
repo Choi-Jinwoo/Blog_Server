@@ -2,6 +2,9 @@ import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, ManyToMany, ManyToO
 import User from './User';
 import Post from './Post';
 
+/**
+ * Delete
+ */
 @Entity('comment')
 export default class Comment extends BaseEntity {
   @PrimaryGeneratedColumn()

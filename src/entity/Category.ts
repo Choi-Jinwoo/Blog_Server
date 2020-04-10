@@ -1,4 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn, BaseEntity } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  BaseEntity,
+  ManyToOne,
+  JoinColumn
+} from 'typeorm';
 
 @Entity('category')
 export default class Category extends BaseEntity {
@@ -13,7 +20,17 @@ export default class Category extends BaseEntity {
 
   @Column({
     nullable: false,
-    unique: true,
+    default: true,
   })
-  order_number: number;
+  is_wrapper: boolean;
+
+  @ManyToOne(type => Category, { onDelete: "CASCADE" })
+  @JoinColumn({ name: 'fk_category_idx' })
+  category: Category;
+
+  @Column({
+    nullable: true,
+    default: null,
+  })
+  fk_category_idx: number;
 }

@@ -1,5 +1,8 @@
 import { Entity, Column, PrimaryColumn, BaseEntity } from 'typeorm';
 
+/**
+ * Delete
+ */
 @Entity('user')
 export default class User extends BaseEntity {
   @PrimaryColumn({
