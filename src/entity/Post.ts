@@ -8,7 +8,6 @@ import {
   ManyToOne,
   JoinColumn
 } from 'typeorm';
-import User from './User';
 import Category from './Category';
 
 @Entity('post')
