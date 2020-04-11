@@ -6,7 +6,7 @@ import getSubscription from './subscription.ctrl/getSubscription';
 
 const router = Router();
 
-router.get('/', authMiddleware.admin, getSubscription);
+router.get('/', authMiddleware, getSubscription);
 router.post('/', subscribe);
 router.post('/cancel', cancelSubscribe);
 
