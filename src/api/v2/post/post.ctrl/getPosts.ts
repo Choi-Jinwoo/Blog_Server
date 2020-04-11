@@ -6,7 +6,6 @@ import { Response } from 'express';
 import AuthRequest from '../../../../type/AuthRequest';
 import { getRepository, FindManyOptions } from 'typeorm';
 import logger from '../../../../lib/logger';
-import User from '../../../../entity/User';
 import Category from '../../../../entity/Category';
 import Post from '../../../../entity/Post';
 import orderTypes from '../../../../enum/orderType';

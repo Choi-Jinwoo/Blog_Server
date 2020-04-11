@@ -6,7 +6,6 @@ import { Response } from 'express'
 import AuthRequest from '../../../../type/AuthRequest';
 import { getRepository } from 'typeorm';
 import logger from '../../../../lib/logger';
-import User from '../../../../entity/User';
 import Post from '../../../../entity/Post';
 
 export default async (req: AuthRequest, res: Response) => {

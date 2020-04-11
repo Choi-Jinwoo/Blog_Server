@@ -8,7 +8,6 @@ import moment from 'moment';
 import AuthRequest from '../../../../type/AuthRequest';
 import { getRepository } from 'typeorm';
 import logger from '../../../../lib/logger';
-import User from '../../../../entity/User';
 import Post from '../../../../entity/Post';
 import generateURL from '../../../../lib/util/generateURL';
 import PostView from '../../../../entity/PostView';

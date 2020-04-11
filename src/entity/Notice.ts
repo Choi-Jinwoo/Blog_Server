@@ -7,7 +7,6 @@ import {
   ManyToOne,
   JoinColumn
 } from 'typeorm';
-import User from './User';
 
 @Entity('notice')
 export default class Notice extends BaseEntity {
