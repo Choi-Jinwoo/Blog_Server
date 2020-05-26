@@ -1,6 +1,6 @@
 # Blog
 
-블로그 주소 👉 <http://blog.wlswoo.com>  
+블로그 주소 <http://blog.wlswoo.com>  
 [블로그 제작 관련 글](http://blog.wlswoo.com/4) 
 
 ## 기술 스택(백엔드)
